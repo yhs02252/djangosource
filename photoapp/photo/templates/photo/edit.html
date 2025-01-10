@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>photo 수정</title>
+{% endblock title %}
+
+{% block content %}
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="mb-3 row">
+      <label for="title" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="title" name="title" value="{{photo.title}}">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="auther" class="col-sm-2 col-form-label">Author</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="auther" name="auther" value="{{photo.auther}}">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="image" class="col-sm-2 col-form-label">Image</label>
+      <div class="col-sm-10">
+        <img src="{{photo.image}}" alt="{{photo.title}}">
+        <input type="text" class="form-control" id="image" name="image">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" cols="3" id="description" name="description">{{photo.description}}</textarea>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="price" class="col-sm-2 col-form-label">Price</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="price" name="price" value="{{photo.price}}">
+      </div>
+    </div>
+    <div>
+      <a href="{% url "photo_list" %}" class="btn btn-success">목록</a>
+      <button type="submit" class="btn btn-primary">수정</button>
+      <a href="{% url "photo_remove" id=photo.id%}" class="btn btn-danger">삭제</a>
+    </div>
+  </form>
+{% endblock content %}

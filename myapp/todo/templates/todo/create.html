@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Todo 생성</title>
+{% endblock title %}
+
+{% block content %}
+  <h1>ToDo Create</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="title" class="form-label">할 일</label>
+      <input type="text" class="form-control" id="title" name="title"/>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">상세내용</label>
+      <textarea row="3" class="form-control" id="description" name="description"></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="completed" for="completed">완료 여부</label>
+      <input type="checkbox" class="form-check-input" id="completed" name="completed"/>
+    </div>
+    <div class="mb-3">
+      <label class="important" for="important">중요 여부</label>
+      <input type="checkbox" class="form-check-input" id="important" name="important"/>
+    </div>
+    <a href="{% url "todo_list" %}" class="btn btn-primary">목록으로</a>
+    <button type="submit" class="btn btn-success">등록</button>
+  </form>
+{% endblock content %}
