@@ -1,0 +1,14 @@
+템플릿 기본 경로
+앱(app) / 템플릿(templates) / *.html
+=> 예) exam / templates / m_create.html
+
+
+장고 앱(app)을 여러개 생성했을 때
+- 1번 방법 : 템플릿 기본 경로 사용하기
+- 2번 방법 : 템플릿 경로 재지정(config -> settings)
+
+settings 에서 경로 지정
+-> BASE_DIR = Path(__file__).resolve().parent.parent <= app들이 포함된 폴더
+-> TEMPLATES = ["DIRS": [BASE_DIR(부모폴더), "templates"(지정할 하위 폴더)]] <= 부모 폴더아래 templates 폴더를 기준으로 템플릿을 불러 오겠다고 명시
+
+- js, css, img 정적 파일

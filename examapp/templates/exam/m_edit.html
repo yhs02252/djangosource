@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Musician Edit</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form_group mb_3">
+        {{field.label_tag}}
+        <input type="{{field.widget_type}}" class="form-control" id="{{field.id_for_label}}" name="{{field.name}}" value="{{field.value}}">
+      </div>
+      {% if field.errors %}
+        {{field.errors}}
+      {% endif %}
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-primary">전송</button>
+  </form>
+{% endblock content %}

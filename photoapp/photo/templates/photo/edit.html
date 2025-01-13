@@ -5,43 +5,44 @@
 {% endblock title %}
 
 {% block content %}
+  {% include "form_errors.html" %}
   <form action="" method="post">
     {% csrf_token %}
     <div class="mb-3 row">
       <label for="title" class="col-sm-2 col-form-label">Title</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="title" name="title" value="{{photo.title}}">
+        <input type="text" class="form-control" id="title" name="title" value="{{form.title.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="auther" class="col-sm-2 col-form-label">Author</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="auther" name="auther" value="{{photo.auther}}">
+        <input type="text" class="form-control" id="auther" name="auther" value="{{form.auther.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="image" class="col-sm-2 col-form-label">Image</label>
       <div class="col-sm-10">
-        <img src="{{photo.image}}" alt="{{photo.title}}">
-        <input type="text" class="form-control" id="image" name="image">
+        <img src="{{form.image.value}}" alt="{{form.title.value}}">
+        <input type="text" class="form-control" id="image" name="image" value="{{form.image.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
-        <textarea class="form-control" cols="3" id="description" name="description">{{photo.description}}</textarea>
+        <textarea class="form-control" cols="3" id="description" name="description">{{form.description.value}}</textarea>
       </div>
     </div>
     <div class="mb-3 row">
       <label for="price" class="col-sm-2 col-form-label">Price</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="price" name="price" value="{{photo.price}}">
+        <input type="number" class="form-control" id="price" name="price" value="{{form.price.value}}">
       </div>
     </div>
     <div>
       <a href="{% url "photo_list" %}" class="btn btn-success">목록</a>
       <button type="submit" class="btn btn-primary">수정</button>
-      <a href="{% url "photo_remove" id=photo.id%}" class="btn btn-danger">삭제</a>
+      <a href="{% url "photo_remove" id=id%}" class="btn btn-danger">삭제</a>
     </div>
   </form>
 {% endblock content %}

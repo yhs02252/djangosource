@@ -6,23 +6,24 @@
 
 {% block content %}
   <h1>ToDo Edit</h1>
+  {% include "form_errors.html" %}
   <form action="" method="post">
     {% csrf_token %}
     <div class="mb-3">
       <label for="title" class="form-label">할 일</label>
-      <input type="text" class="form-control" id="title" name="title" value="{{todo.title}}"/>
+      <input type="text" class="form-control" id="title" name="title" value="{{form.title.value}}"/>
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">상세내용</label>
-      <textarea row="3" class="form-control" id="description" name="description">{{todo.description}}</textarea>
+      <textarea row="3" class="form-control" id="description" name="description">{{form.description.value}}</textarea>
     </div>
     <div class="mb-3">
       <label class="completed" for="completed">완료 여부</label>
-      <input type="checkbox" class="form-check-input" id="completed" name="completed" {%if todo.completed%} checked="checked" {%endif%} value="True"/>
+      <input type="checkbox" class="form-check-input" id="completed" name="completed" {%if form.completed.value%} checked="checked" {%endif%} value="True"/>
     </div>
     <div class="mb-3">
       <label class="important" for="important">중요 여부</label>
-      <input type="checkbox" class="form-check-input" id="important" name="important" {%if todo.important%} checked="checked" {%endif%} value="True"/>
+      <input type="checkbox" class="form-check-input" id="important" name="important" {%if form.important.value%} checked="checked" {%endif%} value="True"/>
     </div>
     <a href="{% url "todo_list" %}" class="btn btn-primary">목록으로</a>
     <button type="submit" class="btn btn-success">수정</button>

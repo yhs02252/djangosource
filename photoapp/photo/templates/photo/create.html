@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block content %}
+  {% include "form_errors.html" %}
   <form action="" method="post">
     {% csrf_token %}
     <div class="mb-3 row">
