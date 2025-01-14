@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Musician Detail</h1>
+  <div class="form_group mb_3">
+    Name:
+    <br>
+    <input type="text" class="form-control" id="name" name="name" value="{{musician.name}}" readonly="readonly">
+  </div>
+  <div class="form_group mb_3">
+    Instrument:
+    <br>
+    <input type="text" class="form-control" id="instrument" name="instrument" value="{{musician.instrument}}" readonly="readonly">
+  </div>
+  <a href="{% url "musician_edit" id=musician.pk %}" class="btn btn-outline-secondary">수정</a>
+{% endblock content %}

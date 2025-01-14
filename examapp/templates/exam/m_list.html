@@ -13,7 +13,7 @@
       {% for musician in musicians %}
         <tr>
           <td>
-            <a href="{% url "musician_edit" id=musician.id %}">{{musician.name}}</a>
+            <a href="{% url "musician_detail" pk=musician.id %}">{{musician.name}}</a>
           </td>
           <td>{{musician.instrument}}</td>
         </tr>

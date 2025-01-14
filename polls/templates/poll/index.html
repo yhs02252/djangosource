@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <h1>INDEX</h1>
+  <div class="card" style="width: 18rem;">
+    <div class="card-header">
+      익명투표 목록
+    </div>
+    <ul class="list-group list-group-flush">
+      {% for question in questions %}
+        <li class="list-group-item">
+          <a href="{% url "poll:detail" question_id=question.id %}">{{question.question_text}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock content %}

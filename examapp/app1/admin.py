@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person, Post
+from .models import Person, Post, Comment
 
 # admin 사이트에서 관리할 모델 등록
 # 1) admin.site.register(모델명) - 세부지정 불가능
@@ -26,3 +26,9 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("title", "author_name", "is_published", "created_at")
     list_display_links = ("author_name",)  # 조회로 들어갈 링크 컬럼 지정
     search_fields = ("title",)  # 검색 탭 추가
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "message", "created_at")
+    list_display_links = ("message",)  # 조회로 들어갈 링크 컬럼 지정

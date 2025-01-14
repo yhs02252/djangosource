@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>상세보기</h1>
+  <form action="{% url "poll:vote" question_id=question.id %}" method="post">
+    {% csrf_token %}
+    <fieldset class="form-group border p-3 mb-3">
+      <legend class="w-auto px-2">
+        <h3>{{question.question_text}}</h3>
+      </legend>
+      <p>
+        <strong></strong>
+      </p>
+      {% comment %} .comment_set.all() 에서 함수 사용 불가로 인해 () 생략{% endcomment %}
+      {% for choice in question.choice_set.all %}
+        <div>
+          <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}">
+          <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label>
+        </div>
+      {% endfor %}
+    </fieldset>
+    <button type="submit" class="btn btn-info">VOTE</button>
+  </form>
+{% endblock content %}
