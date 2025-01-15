@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-iemgoyzm!$-%ng$lr8zx%!9f$e$9dqy(#tz-klxymylo*&y@#2"
+SECRET_KEY = "django-insecure-m^()ak!m@xf(hbnexe!!5#j1n*g28v6n2z6!y5@24uful@uv&a"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "users",
-    "book",
+    "account",
 ]
 
 MIDDLEWARE = [
@@ -118,7 +117,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -128,3 +126,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 로그인, 로그아웃 성공시 경로 변경
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+# 이메일 발송 설정
+DEFAULT_FROM_EMAIL = "default 발송 이메일"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.naver.com"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = "이메일 계정 아이디"
+EMAIL_HOST_PASSWORD = "이메일 계정 비밀번호"
+EMAIL_PORT = 465
