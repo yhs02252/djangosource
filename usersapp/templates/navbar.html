@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="{% url "users:home" %}">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url "users:home" %}">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url "books:list" %}">Books</a>
         </li>
         {% if not user.is_authenticated %}
           <li class="nav-item">
@@ -21,28 +21,42 @@
             <a class="nav-link" href="#" id="logout">Logout</a>
           </li>
         {% endif %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" href="#">Action</a>
+        {% if user.is_authenticated and user.is_superuser %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Option Menu
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="{% url "books:create" %}">Book Add</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Another action</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+          {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link disabled fw-bolder" aria-disabled="true" style="border: 2mm ridge rgb(255, 0, 0); border-radius: 10px;">Admin 로그인 중이지롱</a>
             </li>
-            <li>
-              <a class="dropdown-item" href="#">Another action</a>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link disabled fw-bolder" aria-disabled="true" style="border: 2mm ridge rgb(255, 251, 0); border-radius: 10px;">일반 로그인 중이지롱</a>
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
+          {% endif %}
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link disabled fw-bolder" aria-disabled="true" style="border: 2mm ridge rgb(0, 255, 115); border-radius: 10px;">로그인 중이 아니지롱</a>
+          </li>
+        {% endif %}
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
