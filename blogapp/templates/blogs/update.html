@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <h1>Edit Post</h1>
+    <div class="col-md-10 col-lg-8 col-xl-7"></div>
+    <form action="" method="post" class="mt-4" enctype="multipart/form-data">
+      {% include "form_errors.html" %}
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="user" class="form-label fw-bold">작성자</label>
+        <input type="text" class="form-control" id="user" name="user" value="{{request.user.name}}">
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label fw-bold">제목</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{form.title.value}}">
+      </div>
+      <div class="mb-3 border-bottom pb-2">
+        <label for="content" class="form-label fw-bold">내용</label>
+        <textarea class="form-control" id="content" name="content" rows="10">{{form.content.value}}</textarea>
+      </div>
+      {% if form.image.value %}
+        <div class="mb-3">
+          <label for="image" class="form-label fw-bolder">Image</label>
+        </div>
+        <div class="mb-3">
+          <div class="col-auto fw-bold">현재</div>
+          <div class="col-auto">
+            <img src="{{form.image.value.url}}" alt="" style="width: 500px; height:286px"><br>
+            <a href="{{form.image.value.url}}">
+              <span>[&emsp;{{form.image.value.name}}&emsp;]</span>
+            </a>
+          </div>
+          <div class="col-auto mt-2">
+            <input type="checkbox" class="form-check-input" id="image-clear_id" name="image-clear">
+            <label class="form-check-label fw-bold" for="image-clear_id">이미지 제거</label>
+          </div>
+        </div>
+        <div class="mb-3 mt-5">
+          <label for="image" class="col-auto fw-bold">변경</label>
+          <input type="file" name="image" id="image" class="form-control">
+        </div>
+      {% else %}
+        <div class="mb-3">
+          <label for="image" class="form-label fw-bolder">Image</label>
+        </div>
+        <div class="mb-3">
+          <input type="file" name="image" id="image" class="form-control">
+        </div>
+      {% endif %}
+      <div class="form-group mb-3 mt-4 position-relative">
+        <button type="submit" class="btn btn-success">등록</button>
+        <a href="{% url "blogs:list" %}" class="btn btn-secondary">목록</a>
+        <a href="{% url "blogs:delete" pk %}" class="btn btn-danger position-absolute top-0 end-0">삭제</a>
+      </div>
+    </form>
+  </div>
+
+{% endblock content %}

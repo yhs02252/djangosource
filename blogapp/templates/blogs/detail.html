@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% load social_share %}
+{% block style %}
+  <style>
+    #like span {
+      cursor: pointer;
+    }
+
+    .dislike,
+    .like {
+      display: none;
+    }
+
+    .show {
+      display: inline-block;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post detail -->
+      <h3 class="border-bottom pb-2" style="min-height: 50px;">
+        <!-- 제목 -->
+        {{post.title|title}}
+      </h3>
+    </div>
+  </div>
+  {% if post.image %}
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <h3>
+          <!-- 이미지 -->
+          <img src="{{post.image.url}}" alt="" class="mx-auto d-block" style="width: 700px; height:400px">
+        </h3>
+      </div>
+    </div>
+  {% endif %}
+  <div class="row gx-4 gx-lg-5 mt-2 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <h3 class="border-bottom pb-2" style="min-height: 100px;">
+        <!-- 내용 -->
+        {{post.content}}
+      </h3>
+    </div>
+  </div>
+  <!-- tag -->
+  <div class="row gx-4 gx-lg-5 justify-content-center mb-3">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      {% for tag in post.tag.all %}
+        <span class="badge text-bg-secondary">#{{tag.name}}</span>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7 position-relative">
+      <div class="position-absolute top-0 end-0">
+        {% if user.name == post.user.name %}
+          <a href="{% url "blogs:update" post.pk %}" class="btn btn-info">수정</a>
+        {% endif %}
+        <a href="{% url "blogs:list" %}" class="btn btn-success">목록</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 좋아요 -->
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7 border-bottom p-3" id="like">
+      <span class="like {% if is_liked %}show{% endif %}">
+        <i class="fa-solid fa-heart fg-lg" style="color:rgb(245, 0, 0);"></i>
+      </span>
+      <span class="dislike {% if not is_liked %}show{% endif %}">
+        <i class="fa-regular fa-heart fg-lg" style="color:rgb(245, 0, 0);"></i>
+      </span>
+      <span class="like-total d-inline-block mx-2 fs-6">
+        좋아요
+        <span>{{post.likes.count}}</span>
+        개
+      </span>
+    </div>
+  </div>
+  <!-- 댓글목록 -->
+  <div class="row gx-4 gx-md-5 justify-content-center">
+    <div class="col-md-10">
+      <div class="card mb-5">
+        <div class="card-header">
+          <i class="fa-ragular fa-comments"></i>
+          Comments
+        </div>
+        {% for comment in post.comment_set.all %}
+          <div class="card-body border-bottom pb-3">
+            <h5 class="card-title">
+              <!-- 댓글 내용 -->
+              {{comment.content}}
+            </h5>
+            <div class="card-text text-end fs-6">
+              <!-- 댓글 작성자 -->
+              {{comment.user.name|title}}
+              -
+              {{comment.created_at}}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <span class="badge rounded-pill text-bg-dark"></span>
+    </div>
+  </div>
+
+  <!-- 댓글등록 -->
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7 border-bottom p-3">
+      <!-- 에러 메세지 -->
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="alert alert-danger">{{msg}}</div>
+        {% endfor %}
+      {% endif %}
+      <form action="{% url "blogs:comment_create"%}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="post_pk" value="{{post.pk}}">
+        <div class="form-group mb-3">
+          <textarea class="form-control" id="content" name="content" rows="5"></textarea>
+        </div>
+        <button class="btn btn-secondary" type="submit">댓글작성</button>
+      </form>
+    </div>
+  </div>
+  {% include "social.html" %}
+{% endblock content %}
+{% block script %}
+  <script>
+    const post_pk = '{{post.pk}}';
+  </script>
+  <script src="{% static "js/detail.js" %}"></script>
+{% endblock script %}

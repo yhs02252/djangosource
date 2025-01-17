@@ -2,11 +2,14 @@
 {% block content %}
   <div class="row gx-4 gx-lg-5 justify-content-center">
     <div class="col-md-10 col-lg-8 col-xl-7">
+      <div class="position-relative">
+        <a href="{% url "blogs:create" %}" class="btn btn-primary position-absolute top-0 end-0">New Post</a>
+      </div>
       {% for post in posts %}
         <!-- Post preview-->
         <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">{{post.title}}</h2>
+          <a href="{% url "blogs:detail" post.pk %}">
+            <h2 class="post-title">{{post.title|upper}}</h2>
             <h3 class="post-subtitle">{{post.content|truncatechars:50}}</h3>
           </a>
           <p class="post-meta">
@@ -20,8 +23,18 @@
         <hr class="my-4"/>
       {% endfor %}
       <!-- Pager-->
-      <div class="d-flex justify-content-end mb-4">
-        <a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a>
+      <div class="d-flex justify-content-end mb-4 position-relative">
+        {% if posts.has_previous %}
+          <a class="btn btn-primary text-uppercase position-absolute start-0" href="?page={{posts.previous_page_number}}">← Previous Posts</a>
+        {% endif %}
+
+        <!-- 번호 / 페이지-->
+        <a class="btn btn-primary text-uppercase position-absolute top-50 start-50 translate-middle " href="#">{{posts.number}}
+          /
+          {{posts.paginator.num_pages}}</a>
+        {% if posts.has_next %}
+          <a class="btn btn-primary text-uppercase" href="?page={{posts.next_page_number}}">Next Posts →</a>
+        {% endif %}
       </div>
     </div>
   </div>
