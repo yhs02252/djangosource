@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>Question</title>
+{% endblock title %}
+{% block content %}
+  <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
+  <form action="" method="post">
+    {% csrf_token %}
+    {% include "form_errors.html" %}
+    {% for field in form %}
+      <div class="form_group mb-3">
+        <label class="mb-1" for="{{field.id_for_label}}">{{field.label}}</label>
+        {% if field.name == 'content' %}
+          <textarea class="form-control" id="{{field.id_for_label}}" name="{{field.name}}" placeholder="{{field.label}}" rows="10">{{field.value|default_if_none:''}}</textarea>
+        {% else %}
+          <input type="{{field.widget_type}}" class="form-control" id="{{field.id_for_label}}" name="{{field.name}}" placeholder="{{field.label}}" value="{{field.value|default_if_none:''}}">
+        {% endif %}
+        <span class="text-danger small">{{field.help_text}}</span>
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">등록</button>
+    <a href="{% url "board:index" %}" class="btn btn-secondary">목록</a>
+  </form>
+{% endblock content %}
