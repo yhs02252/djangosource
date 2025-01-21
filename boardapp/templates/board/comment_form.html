@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>Comment</title>
+{% endblock title %}
+{% block content %}
+  <h5 class="my-3 border-bottom pb-2">댓글</h5>
+  <form action="" method="post">
+    {% csrf_token %}
+    {% include "form_errors.html" %}
+    <div class="form_group mb-3">
+      <label class="mb-1" for="content">내용</label>
+      <textarea class="form-control" id="content" name="content" placeholder="content" rows="10">{{form.content.value|default_if_none:''}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success">등록</button>
+    <a href="{% url "board:index" %}" class="btn btn-secondary">목록</a>
+  </form>
+{% endblock content %}

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+{% load board_filter %}
 {% block title %}
   <title>Board List</title>
 {% endblock title %}
@@ -6,16 +8,16 @@
   <div class="row justify-content-between">
     <div class="col-md-3">
       <select name="" id="" class="form-select so">
-        <option value="recent">최신순</option>
-        <option value="recomment">추천순</option>
-        <option value="popular">인기순</option>
+        <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
+        <option value="recommend" {% if so == 'recommend' %}selected{% endif %}>추천순</option>
+        <option value="popular" {% if so == 'popular' %}selected{% endif %}>인기순</option>
       </select>
     </div>
     <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input type="text" name="keyword" id="" class="form-control">
-        <button class="btn btn-outline-secondary">찾기</button>
-      </div>
+        <div class="input-group mb-3">
+          <input type="text" name="keyword" class="form-control" value="{{keyword|default_if_none:''}}">
+          <button class="btn btn-outline-secondary" id="searchbtn" type="button">찾기</button>
+        </div>
     </div>
   </div>
   <div class="my-3">
@@ -24,7 +26,7 @@
         <tr class="table-success">
           <td>번호</td>
           <td>추천</td>
-          <td>제목</td>
+          <td>제목(댓글)</td>
           <td>작성자</td>
           <td>작성일시</td>
           <td>답변수</td>
@@ -33,16 +35,24 @@
       <tbody>
         {% for question in questions %}
           <tr>
-            <th>{{question.id}}</th>
+            {% comment %} 
+              question_list.paginator.count : 전체 게시물 개수
+              question_list.start_index : 1부터 시작
+              forloop.counter0 : 현재 페이지에서 0부터 인덱스 시작
+              add:1 : +1
+             {% endcomment %}
+            <th>{{questions.paginator.count|sub:questions.start_index|sub:forloop.counter0|add:1}}</th>
             <td>
-              <span class="badge text-bg-warning px-2 py-1"></span>
-              <!-- 질문 추천수 -->
+              <span class="badge text-bg-warning px-2 py-1">
+                <!-- 질문 추천수 -->
+                 {{question.voter.count}}
+              </span>
             </td>
             <td>
               <a href="{% url "board:detail" id=question.id %}" class="text-decoration-none text-dark">
                 <!-- 질문 제목 -->
                 {{question.subject}}
-                <span class="text-danger small mx-2"></span>
+                <span class="text-danger small mx-1">({{question.comment_set.count}})</span>
                 <!-- 질문에 달린 답변의 개수 -->
               </a>
             </td>
@@ -70,27 +80,38 @@
       <ul class="pagination">
         {% if questions.has_previous %}
           <li class="page-item">
-            <a class="page-link" href="?page={{questions.previous_page_number}}">Previous</a>
+            <a class="page-link" href="?keyword={{keyword}}&page=1">1..</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?keyword={{keyword}}&page={{questions.previous_page_number}}">Previous</a>
           </li>
         {% endif %}
         {% for page in questions.paginator.page_range %}
           {%if page >= questions.number|add:-5 and page <= questions.number|add:5%}
             <li class="page-item {% if page == questions.number %}active{% endif %}" aria-current="page">
-              <a class="page-link" href="?page={{page}}">{{page}}</a>
+              <a class="page-link" href="?keyword={{keyword}}&page={{page}}">{{page}}</a>
             </li>
           {% endif %}
         {% endfor %}
         {% if questions.has_next %}
           <li class="page-item">
-            <a class="page-link" href="?page={{questions.next_page_number}}">Next</a>
+            <a class="page-link" href="?keyword={{keyword}}&page={{questions.next_page_number}}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?keyword={{keyword}}&page={{max_page}}">..End</a>
           </li>
         {% endif %}
-        <li class="page-item">
-          <a class="page-link" href="?page=100">end</a>
-        </li>
 
       </ul>
     </nav>
     <a href="{% url "board:create" %}" class="btn btn-primary">질문등록</a>
   </div>
+  <form action="{% url "board:index" %}" method="get" id="actionForm">
+    <input type="hidden" name="page" id="page" class="form-control" value="{{page}}">
+    <input type="hidden" name="keyword" id="keyword" class="form-control" value="{{keyword|default_if_none:''}}">
+    <input type="hidden" name="so" id="so" class="form-control" value="{{so|default_if_none:''}}">
+  </form>
 {% endblock content %}
+{% block script %}
+  <script src="{% static "js/index.js" %}"></script>
+{% endblock script %}
