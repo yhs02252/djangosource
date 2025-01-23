@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-@jvs%7741hit+&ey!0e8bl_7oa2inicf3_-cb5-%h6f$koyo%0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "yhs02252.pythonanywhere.com"]
 
 
 # Application definition
@@ -37,6 +37,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 장고 사이트관리 페이지
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    # Optional -- requires install using `django-allauth[socialaccount]`.
+    "allauth.socialaccount",
+    # 구글 로그인
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.kakao",
     "board",
     "users",
 ]
@@ -49,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -130,3 +140,37 @@ LOGOUT_REDIRECT_URL = "/"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = Path(BASE_DIR, "media")
+
+
+# 이메일 발송 설정
+DEFAULT_FROM_EMAIL = "yhs02252@naver.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.naver.com"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = "yhs02252"
+EMAIL_HOST_PASSWORD = "6604211ckd"
+EMAIL_PORT = 465
+
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    # 로그인 아이디를 이메일로 사용시
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SITE_ID = 2
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        # "APP": {"client_id": "123", "secret": "456", "key": ""}
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "offline"},
+    }
+}

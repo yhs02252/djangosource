@@ -30,6 +30,7 @@
           <td>작성자</td>
           <td>작성일시</td>
           <td>답변수</td>
+          <td>조회수</td>
         </tr>
       </thead>
       <tbody>
@@ -72,6 +73,7 @@
                 </span>
               {% endif %}
             </td>
+            <td>{{question.viewcnt}}</td>
           </tr>
         {% endfor %}
       </tbody>
@@ -80,25 +82,25 @@
       <ul class="pagination">
         {% if questions.has_previous %}
           <li class="page-item">
-            <a class="page-link" href="?keyword={{keyword}}&page=1">1..</a>
+            <a class="page-link" href="?keyword={{keyword}}&page=1&so={{so}}">1..</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="?keyword={{keyword}}&page={{questions.previous_page_number}}">Previous</a>
+            <a class="page-link" href="?keyword={{keyword}}&page={{questions.previous_page_number}}&so={{so}}">Previous</a>
           </li>
         {% endif %}
         {% for page in questions.paginator.page_range %}
           {%if page >= questions.number|add:-5 and page <= questions.number|add:5%}
             <li class="page-item {% if page == questions.number %}active{% endif %}" aria-current="page">
-              <a class="page-link" href="?keyword={{keyword}}&page={{page}}">{{page}}</a>
+              <a class="page-link" href="?keyword={{keyword}}&page={{page}}&so={{so}}">{{page}}</a>
             </li>
           {% endif %}
         {% endfor %}
         {% if questions.has_next %}
           <li class="page-item">
-            <a class="page-link" href="?keyword={{keyword}}&page={{questions.next_page_number}}">Next</a>
+            <a class="page-link" href="?keyword={{keyword}}&page={{questions.next_page_number}}&so={{so}}">Next</a>
           </li>
           <li class="page-item">
-            <a class="page-link" href="?keyword={{keyword}}&page={{max_page}}">..End</a>
+            <a class="page-link" href="?keyword={{keyword}}&page={{max_page}}&so={{so}}">..End</a>
           </li>
         {% endif %}
 

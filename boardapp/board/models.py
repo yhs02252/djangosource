@@ -19,11 +19,25 @@ class Question(models.Model):
         User, related_name="voter_question", verbose_name="추천"
     )
 
+    # 조회수
+    viewcnt = models.IntegerField(verbose_name="조회수", default=0)
+
     class Meta:
         db_table = "questiontbl"
 
     def __str__(self):
         return self.subject
+
+
+# 조회수 업데이트를 위한 모델
+class QuestionCount(models.Model):
+    ip = models.CharField(verbose_name="ip주소", max_length=30)
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, verbose_name="질문"
+    )
+
+    def __unicode__(self):
+        return self.ip
 
 
 class Answer(models.Model):

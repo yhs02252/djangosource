@@ -26,6 +26,15 @@ def answer_create(request, id):
     # question.answer_set.create(content=content)
     # return redirect("board:detail", id=id)
 
+    # 띄울 페이지 지정
+    page = request.GET.get("page", 1)
+
+    # 검색
+    keyword = request.GET.get("keyword", "")
+
+    # 정렬기준
+    so = request.GET.get("so", "")
+
     # form 사용
     if request.method == "POST":
         form = AnswerForm(request.POST)
@@ -35,13 +44,22 @@ def answer_create(request, id):
             answer.question = question
             answer.author = request.user
             answer.save()
+            print("값 확인 : ", answer)
             # return redirect("board:detail", id)
             return redirect(
-                "{}#answer_{}".format(resolve_url("board:detail", id), answer.id)
+                "{}?page={}&keyword={}%so={}/#answer_{}".format(
+                    resolve_url("board:detail", id), page, keyword, so, answer.id
+                )
             )
     else:
         form = AnswerForm()
-    context = {"form": form, "question": question}
+    context = {
+        "form": form,
+        "question": question,
+        "page": page,
+        "keyword": keyword,
+        "so": so,
+    }
     return render(request, "board/question_detail.html", context)
 
 
