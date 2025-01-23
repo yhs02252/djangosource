@@ -143,13 +143,13 @@ MEDIA_ROOT = Path(BASE_DIR, "media")
 
 
 # 이메일 발송 설정
-DEFAULT_FROM_EMAIL = "yhs02252@naver.com"
+DEFAULT_FROM_EMAIL = "default 발송 이메일"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.naver.com"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = "yhs02252"
-EMAIL_HOST_PASSWORD = "6604211ckd"
+EMAIL_HOST_USER = "이메일 계정 아이디"
+EMAIL_HOST_PASSWORD = "이메일 계정 비밀번호"
 EMAIL_PORT = 465
 
 
